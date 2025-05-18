@@ -51,6 +51,20 @@ app.put('/api/products/:id', async(req, res)=>{
     }
 })
 
+app.delete('/api/products/:id', async(req, res)=>{
+    try {
+        const {id} = req.params
+        const product = await Product.findByIdAndDelete(id)
+        if(!product)
+        {
+            return res.status(404).json({message:"Product not found!"})
+        }
+        res.status(200).json({message:"Product Deleted Successfully"})
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+})
+
 mongoose.connect("mongodb+srv://azmeerhassanammad:iIF1XbagRo6eFtYb@practice-api-express-mo.8asxe2c.mongodb.net/practice-API-Express-MongoDB?retryWrites=true&w=majority&appName=practice-API-Express-MongoDB")
 .then(()=>{
     console.log("connected to database!");
